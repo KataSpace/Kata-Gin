@@ -1,4 +1,4 @@
-module github.com/KataSpace/KataGin
+module github.com/KataSpace/Kata-Gin
 
 go 1.17
 
