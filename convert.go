@@ -6,18 +6,38 @@ import (
 	"strings"
 )
 
-func defaultConvert(s string, n int) string {
+func defaultConvert(s string) string {
 
 	return s
 }
 
-// SlashConvert  add slash before every upper char
+func SlashConvertWithOne(s string) string {
+	return slashConvert(s, 1)
+}
+
+func SlashConvertWithTwo(s string) string {
+	return slashConvert(s, 2)
+}
+
+func SlashConvertWithThree(s string) string {
+	return slashConvert(s, 3)
+}
+
+func SlashConvertWithFive(s string) string {
+	return slashConvert(s, 5)
+}
+
+func SlashConvertWithTen(s string) string {
+	return slashConvert(s, 10)
+}
+
+// slashConvert  add slash before every upper char
 // n  Capital letters with less than N consecutive characters are ignored
 // e.g.
 // n = 5 GetAPIAllName will get Get、All、Name. API is three consecutive capital letters, which is less than the requirement of 5, so it will be ignored
 // n = 2 GetAPIAllName will get Get、AP、IA、Name.
 // more examples please referee convert_test.go
-func SlashConvert(s string, n int) string {
+func slashConvert(s string, n int) string {
 	r := "[A-Z][^A-Z]+"
 	if n >= 1 {
 		r = fmt.Sprintf("[A-Z][a-z]+|([A-Z]|[0-9]){%d}", n)
