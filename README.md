@@ -19,7 +19,7 @@ import (
 type example struct{}
 
 func (e *example) GetAllName(c *gin.Context) {
-	c.JSON(http.StatusOK, "GetAllName")
+	c.JSON(http.StatusOK, "Response by GetAllName")
 }
 
 func main() {
@@ -30,5 +30,12 @@ func main() {
 }
 
 ```
+
+`Kata-Gin` will register `GetAllName` in `Gin` like the follow:
+```go
+GET /AllName  GetAllName
+```
+
+If there has a request `curl http://127.0.0.1:8080/AllName`, then get response: `Response by GetAllName`
 
 ## Details about `KataGin`
