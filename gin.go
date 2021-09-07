@@ -50,25 +50,3 @@ func RegisterRouter(r *gin.Engine, nameConvert func(string) string, getMethods f
 	return r
 }
 
-func defaultConvert(s string) string {
-
-	return s
-}
-
-func defaultGetMethods(s string) (method string, name string) {
-
-	var b strings.Builder
-	b.Grow(len(s))
-
-	b.WriteByte(s[0])
-	for i := 1; i < len(s); i++ {
-		c := s[i]
-		if 'A' <= c && c <= 'Z' {
-			name = s[i:]
-			break
-		}
-		b.WriteByte(c)
-	}
-
-	return b.String(), name
-}
