@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func defaultConvert(s string) string {
+func defaultConvert(s string, n int) string {
 
 	return s
 }

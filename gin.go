@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterRouter(r *gin.Engine, nameConvert func(string) string, getMethods func(string) (string, string), objects ...interface{}) *gin.Engine {
+func RegisterRouter(r *gin.Engine, nameConvert func(string, int) string, getMethods func(string) (string, string), objects ...interface{}) *gin.Engine {
 	nf := defaultConvert
 	gc := defaultGetMethods
 
@@ -49,4 +49,3 @@ func RegisterRouter(r *gin.Engine, nameConvert func(string) string, getMethods f
 	}
 	return r
 }
-
