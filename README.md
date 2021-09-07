@@ -39,3 +39,13 @@ GET /AllName  GetAllName
 If there has a request `curl http://127.0.0.1:8080/AllName`, then get response: `Response by GetAllName`
 
 ## Details about `KataGin`
+
++ name convert function
+
+1. slashConvert
+
+If there are multiple consecutive uppercase letters in the function name, it will be ignored by default. If user wants to keep these uppercase letters, can use this function.
+
+This function will add slash before every upper letter. It uses regex(`[A-Z][a-z]+|([A-Z]|[0-9]){%d}`,`%d` is n value.) for split string.
+
+As I test, n = 3 gets the better effects.
