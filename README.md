@@ -49,3 +49,20 @@ If there are multiple consecutive uppercase letters in the function name, it wil
 This function will add slash before every upper letter. It uses regex(`[A-Z][a-z]+|([A-Z]|[0-9]){%d}`,`%d` is n value.) for split string.
 
 As I test, n = 3 gets the better effects.
+
+If user set n = -1, then ignore this feature.
+e.g.
+
+```go
+n == -1
+AAAGetAllName ==> Get/All/Name
+
+n == 2
+GetAPIAllName ==> Get/AP/IA/Name
+
+n == 3
+GetAPIAllName ==> Get/API/All/Name
+
+n == 10
+GetAPIAllName ==> Get/All/Name
+```
