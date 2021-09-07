@@ -7,20 +7,28 @@ Package for Gin. Automatic generation of route maps
 + Declare a struct and implement some gin functions like this:
 
 ```go
-type Driver struct {
+package main
+
+import (
+	"net/http"
+
+	kg "github.com/KataSpace/Kata-Gin"
+	"github.com/gin-gonic/gin"
+)
+
+type example struct{}
+
+func (e *example) GetAllName(c *gin.Context) {
+	c.JSON(http.StatusOK, "GetAllName")
 }
 
-func (d *Driver) GetAllName(c *gin.Context) {
+func main() {
+	r := gin.Default()
+	r = kg.RegisterRouter(r, nil, nil, new(example))
 
-c.JSON(http.StatusOK, "GetAllName")
+	r.Run()
 }
-```
 
-+ Then register *Driver with `KataGin`:
-
-```go
-r = kg.RegisterRouter(r, nil, nil, &Driver{})
-r.Run()
 ```
 
 ## Details about `KataGin`
