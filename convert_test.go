@@ -45,7 +45,7 @@ func Test_defaultGetMethods(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotMethod, gotName := defaultGetMethods(tt.args.s)
+			gotMethod, gotName := DefaultGetMethods(tt.args.s)
 			if gotMethod != tt.wantMethod {
 				t.Errorf("defaultGetMethods() gotMethod = %v, want %v", gotMethod, tt.wantMethod)
 			}

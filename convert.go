@@ -46,12 +46,12 @@ func CommentGetMethods(s string) (method string, name string) {
 	return strings.TrimSpace(data[0]), strings.TrimSpace(data[1])
 }
 
-func defaultConvert(name, comment string) string {
+func DefaultConvert(name string) string {
 
 	return name
 }
 
-func defaultGetMethods(s string) (method string, name string) {
+func DefaultGetMethods(s string) (method string, name string) {
 
 	var b strings.Builder
 	b.Grow(len(s))
