@@ -6,9 +6,67 @@ import (
 	"strings"
 )
 
-func defaultConvert(s string) string {
+// CommentConvert get api uri from comment
+// There are has three conditions
+// 1.
+// // Hello
+// function Hello(){}
+// will convert to GET /Hello
+// 2.
+// // Hello
+// // GET /
+// will convert to GET /Hello
+// 3.
+// // Hello
+// // GET /v1
+// will conver to GET /v1/Hello
+func CommentConvert(name, comment string) string {
+	path := strings.Split(comment, "\n")
+	if len(path) == 1 {
+		path = append(path, "GET /")
+	} else {
+		if !strings.Contains(path[1], "/") {
+			path[1] += " /"
+		}
+	}
 
-	return s
+	if strings.HasSuffix(strings.TrimSpace(path[1]), "/") {
+		return fmt.Sprintf("%s%s", path[1], name)
+	}
+
+	return fmt.Sprintf("%s/%s", path[1], name)
+}
+
+// CommentGetMethods Spilt method and path from url
+// Method and uri path must use space isolation
+// e.g.
+// GET /v1/Hello ==> GET    /v1/Hello
+func CommentGetMethods(s string) (method string, name string) {
+	data := strings.Split(s, " ")
+	return strings.TrimSpace(data[0]), strings.TrimSpace(data[1])
+}
+
+func defaultConvert(name, comment string) string {
+
+	return name
+}
+
+func defaultGetMethods(s string) (method string, name string) {
+
+	var b strings.Builder
+	b.Grow(len(s))
+
+	b.WriteByte(s[0])
+	for i := 1; i < len(s); i++ {
+		c := s[i]
+		if c == '/' || 'A' <= c && c <= 'Z' {
+			name = s[i:]
+			break
+		}
+		b.WriteByte(c)
+	}
+
+	return b.String(), name
 }
 
 func SlashConvertWithOne(s string) string {
@@ -48,22 +106,4 @@ func slashConvert(s string, n int) string {
 	sub := reg.FindAllString(s, -1)
 
 	return strings.Join(sub, "/")
-}
-
-func defaultGetMethods(s string) (method string, name string) {
-
-	var b strings.Builder
-	b.Grow(len(s))
-
-	b.WriteByte(s[0])
-	for i := 1; i < len(s); i++ {
-		c := s[i]
-		if c == '/' || 'A' <= c && c <= 'Z' {
-			name = s[i:]
-			break
-		}
-		b.WriteByte(c)
-	}
-
-	return b.String(), name
 }
