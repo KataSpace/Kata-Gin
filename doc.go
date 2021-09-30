@@ -13,20 +13,20 @@ import (
 )
 
 // Get the name and path of a func
-func FuncPathAndName(f interface{}) string {
+func funcPathAndName(f interface{}) string {
 	return runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name()
 }
 
 // Get the name of a func (with package path)
-func FuncName(f interface{}) string {
-	splitFuncName := strings.Split(FuncPathAndName(f), ".")
+func funcName(f interface{}) string {
+	splitFuncName := strings.Split(funcPathAndName(f), ".")
 	return splitFuncName[len(splitFuncName)-1]
 }
 
 // Get description of a func
-func FuncDescription(f interface{}) string {
+func funcDescription(f interface{}, name string) string {
 	fileName, _ := runtime.FuncForPC(reflect.ValueOf(f).Pointer()).FileLine(0)
-	funcName := FuncName(f)
+	funcName := funcName(f)
 	fset := token.NewFileSet()
 
 	// Parse src
@@ -43,7 +43,19 @@ func FuncDescription(f interface{}) string {
 	pkg.Files[fileName] = parsedAst
 
 	importPath, _ := filepath.Abs("/")
+
 	myDoc := doc.New(pkg, importPath, doc.AllDecls)
+
+	for _, theStruct := range myDoc.Types{
+		if theStruct.Name == name{
+			for _, methodOfStruct := range theStruct.Methods{
+				if methodOfStruct.Name == funcName{
+					return strings.TrimSpace(methodOfStruct.Doc)
+				}
+			}
+		}
+	}
+
 	for _, theFunc := range myDoc.Funcs {
 		if theFunc.Name == funcName {
 			return strings.TrimSpace(theFunc.Doc)

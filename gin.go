@@ -8,13 +8,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterRouter(r *gin.Engine, nameConvert func(string) string, getMethods func(string) (string, string), objects ...interface{}) *gin.Engine {
+func RegisterRouter(r *gin.Engine, nameConvert func(string, string) string, getMethods func(string) (string, string), objects ...interface{}) *gin.Engine {
 	nf := defaultConvert
 	gc := defaultGetMethods
 
 	for _, o := range objects {
 		t := reflect.TypeOf(o)
 		v := reflect.ValueOf(o)
+
+		structName := ""
+		if t.Kind() == reflect.Ptr {
+			structName = t.Elem().Name()
+		} else {
+			structName = t.Name()
+		}
 
 		for i := 0; i < v.NumMethod(); i++ {
 			method := v.Method(i)
@@ -31,7 +38,7 @@ func RegisterRouter(r *gin.Engine, nameConvert func(string) string, getMethods f
 						gc = getMethods
 					}
 
-					method, name := gc(nf(t.Method(i).Name))
+					method, name := gc(nf(t.Method(i).Name, funcDescription(t.Method(i).Func.Interface(), structName)))
 					switch strings.ToUpper(method) {
 					case http.MethodGet:
 						r.GET(name, f)

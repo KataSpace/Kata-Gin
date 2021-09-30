@@ -10,9 +10,20 @@ func aTestFunction() {}
 func MultilineFunction() {
 
 }
+
+type commentTest struct {
+}
+
+// StructMethod test for function in struct.
+func (ct commentTest) StructMethod() {
+
+}
+
 func TestFuncDescription(t *testing.T) {
+
 	type args struct {
 		f interface{}
+		n string
 	}
 	tests := []struct {
 		name string
@@ -32,7 +43,7 @@ func TestFuncDescription(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := FuncDescription(tt.args.f); got != tt.want {
+			if got := funcDescription(tt.args.f, tt.args.n); got != tt.want {
 				t.Errorf("FuncDescription() = [%v], want [%v]", got, tt.want)
 			}
 		})

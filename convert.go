@@ -6,9 +6,9 @@ import (
 	"strings"
 )
 
-func defaultConvert(s string) string {
+func defaultConvert(name, comment string) string {
 
-	return s
+	return name
 }
 
 func SlashConvertWithOne(s string) string {
